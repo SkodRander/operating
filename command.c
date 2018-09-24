@@ -1,36 +1,24 @@
-
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-
-//guessing the buffersize (i.e. the size that needs to be allocated
-// int* buffer = malloc(buffer_size*sizeof(int)); 
-
-// how to dynamically allocate space? what type should buffer be?
-// use the dynamic tables (algo 2) 
-
-// when array gets full, new array of double size 
-// malloc the new array first and then free the old array space
-int *double_array_size(int *array, int *size) {
-	int *temp = NULL;
+int *dynamic_table(int *oldarray, int *size) {
+	int *newarray = NULL;
 	int k;
-	temp = (int *) malloc(*size * 2 * sizeof(int));
-	
-	for(k=0; k<*size;k++){
-		temp[k] = array[k];
-	}
+	newarray = (int *) malloc(*size * 2 * sizeof(int));
+
+	memcpy(newarray, oldarray, *size * 2 * sizeof(int));
 	
 	*size *= 2;
 	
-	free(array);
-	return temp; 
+	free(oldarray);
+	return newarray; 
 }
 
 
 int main(){
 	char command;
 	int counter = 0;
-	//int collection[8] = {}; //what should be the size of the array ? think malloc
 	int * collection = malloc(2*sizeof(int));
 	int insertions = 0; 
 	int size = sizeof(*collection)/sizeof(int);
@@ -41,7 +29,7 @@ int main(){
 	
 		if(command == 'a'){
 			if(insertions == *psize){
-				collection = double_array_size(collection, psize);
+				collection = dynamic_table(collection, psize);
 			}
 			collection[insertions] = counter;
 			insertions += 1;
@@ -51,24 +39,21 @@ int main(){
 			//Do nothing
 		}
 		else if(command == 'c'){
-			collection[insertions-1] = -1;
+			collection[insertions] = 0; 
+			insertions -= 1;
 		}
 		else{
 			int i;
-			for(i=0; i<(*psize); i++){ 
-				if(collection[i] != -1){
-					if(i<1 || collection[i] != 0) {
+			for(i=0; i<(*psize); i++){
+				if(i<1 || collection[i] != 0) {
 						printf("%i | ",collection[i]);
 					}
-				}
 				else {
 					//do nothing
 				}
-
+				
 			}
-			/* printf("\n %i = number of insertions", insertions);
-			printf("\n %i = counter value", counter);
-			printf("\n %i = size of array\n", *psize); */
+			printf("\n");
 			break;
 		}
 		counter += 1;
