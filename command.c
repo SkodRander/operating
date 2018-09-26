@@ -27,19 +27,19 @@ int main(){
 	while(1){
 		command = getchar(); //read the next char
 	
-		if(command == 'a'){ // if a then add the counter to collection
+		if(command == 'a'){ 
 			if(insertions == *psize){ //double array if full
-				collection = dynamic_table(collection, psize); 
+				collection = dynamic_table(collection, psize); // if a then add the counter to collection
 			}
 			collection[insertions] = counter;
-			insertions += 1; // increment always points to the next element in collection
+			insertions += 1; // increment to always point to the next element in collection
 		}
 		else if(command == 'b'){ 
 			//do nothing
 		}
-		else if(command == 'c'){ // if a then delete last element 
+		else if(command == 'c'){ // if c then delete last element 
 			collection[insertions] = 0; 
-			if(insertions == 0) { 
+			if(insertions == 0) {  // make sure that insertions is not pointing to element before 1st elemen
 				// do nothing
 			} else {
 				insertions -= 1;
